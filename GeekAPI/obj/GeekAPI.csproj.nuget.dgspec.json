@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Development\\GeekBookStore\\GeekText\\GeekAPI\\GeekAPI.csproj": {}
+    "C:\\Development\\GeekBookStore\\GeekText\\GeekApi\\GeekAPI.csproj": {}
   },
   "projects": {
-    "C:\\Development\\GeekBookStore\\GeekText\\GeekAPI\\GeekAPI.csproj": {
+    "C:\\Development\\GeekBookStore\\GeekText\\GeekApi\\GeekAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Development\\GeekBookStore\\GeekText\\GeekAPI\\GeekAPI.csproj",
+        "projectUniqueName": "C:\\Development\\GeekBookStore\\GeekText\\GeekApi\\GeekAPI.csproj",
         "projectName": "GeekAPI",
-        "projectPath": "C:\\Development\\GeekBookStore\\GeekText\\GeekAPI\\GeekAPI.csproj",
+        "projectPath": "C:\\Development\\GeekBookStore\\GeekText\\GeekApi\\GeekAPI.csproj",
         "packagesPath": "C:\\Users\\Eddie Molieri.VPS_EDDIE\\.nuget\\packages\\",
-        "outputPath": "C:\\Development\\GeekBookStore\\GeekText\\GeekAPI\\obj\\",
+        "outputPath": "C:\\Development\\GeekBookStore\\GeekText\\GeekApi\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
@@ -51,6 +51,10 @@
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.2.3, )"
+            },
+            "System.Data.SqlClient": {
+              "target": "Package",
+              "version": "[4.8.3, )"
             }
           },
           "imports": [
