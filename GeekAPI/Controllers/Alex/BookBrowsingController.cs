@@ -2,7 +2,6 @@
 
 namespace GeekAPI.Controllers.Alex
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class BookBrowsingController : ControllerBase
     {
@@ -15,9 +14,10 @@ namespace GeekAPI.Controllers.Alex
             _geekDbConnectionString = _configuration.GetConnectionString("GeekDBConnectionString");
         }
 
-        // GET: api/<BookBrowsingController>
+        [Route("api/[controller]")]
+        [Route("api/test")]
         [HttpGet]
-        public JsonResult Get()
+        public JsonResult ExampleGet()
         {
             int topNum = 100;
             string sqlQuery = $@"
@@ -36,6 +36,13 @@ SELECT TOP ({topNum}) [ISBN]
   FROM [GeekStore].[dbo].[Books]";
 
             return BBC_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
+        }
+
+        [Route("api/GetByGenre/{genre}")]
+        [HttpGet]
+        public JsonResult GetByGenre(string genre)
+        {
+            return null;
         }
     }
 }
