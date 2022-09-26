@@ -23,7 +23,8 @@ namespace GeekAPI.Controllers.Alex
             string sqlQuery = $@"
 USE [GeekStore]
 
-SELECT TOP ({topNum}) [ISBN]
+SELECT TOP ({topNum}) [BookID]
+      ,[ISBN]
       ,[Title]
       ,[Description]
       ,[Price]
