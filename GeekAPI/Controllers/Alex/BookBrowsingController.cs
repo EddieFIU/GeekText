@@ -32,7 +32,6 @@ SELECT TOP ({topNum}) [BookID]
       ,[Publisher]
       ,[YearPublished]
       ,[CopiesSold]
-      ,[RatingID]
       ,[AuthorID]
   FROM [GeekStore].[dbo].[Books]";
 
@@ -43,7 +42,14 @@ SELECT TOP ({topNum}) [BookID]
         [HttpGet]
         public JsonResult GetByGenre(string genre)
         {
-            return null;
+            string sqlQuery = $@"
+USE [GeekStore]
+
+SELECT [Title]
+FROM [GeekStore].[dbo].[Books]
+WHERE [Genre]='{genre}'";
+
+            return BBC_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
         }
     }
 }
