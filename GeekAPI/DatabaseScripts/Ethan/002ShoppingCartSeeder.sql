@@ -1,6 +1,11 @@
-﻿namespace GeekAPI.DatabaseScripts.Ethan
-{
-    public class _002ShoppingCartSeeder
-    {
-    }
-}
+﻿USE [GeekStore]
+GO
+
+INSERT INTO [dbo].[ShoppingCart]
+           ([UserID]
+           ,[BookID])
+     VALUES
+           (1,1)
+GO
+
+
