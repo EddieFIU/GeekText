@@ -64,5 +64,20 @@ namespace GeekAPI.Controllers.Alex
 
             return BBC_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
         }
+
+        [Route("api/GetByPosAndQty/{pos}/{qty}")]
+        [HttpGet]
+        public JsonResult GetByPosAndQty(int pos, int qty)
+        {
+            int pos2 = (pos + qty) - 1;
+            string sqlQuery = $@"
+            USE [GeekStore]
+
+            SELECT [BookID], [Title]
+            FROM [dbo].[Books]
+            WHERE [BookID] BETWEEN {pos} AND {pos2};";
+
+            return BBC_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
+        }
     }
 }
