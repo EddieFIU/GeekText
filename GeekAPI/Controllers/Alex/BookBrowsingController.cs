@@ -34,7 +34,7 @@ namespace GeekAPI.Controllers.Alex
                   ,[AuthorID]
             FROM [GeekStore].[dbo].[Books]";
 
-            return BBC_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
+            return SQL_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
         }
 
         [Route("api/GetByGenre/{genre}")]
@@ -48,7 +48,7 @@ namespace GeekAPI.Controllers.Alex
             FROM [GeekStore].[dbo].[Books]
             WHERE [Genre]='{genre}'";
 
-            return BBC_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
+            return SQL_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
         }
 
         [Route("api/GetTop10Sold")]
@@ -62,7 +62,7 @@ namespace GeekAPI.Controllers.Alex
             FROM [dbo].[Books]
             ORDER BY [CopiesSold] DESC";
 
-            return BBC_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
+            return SQL_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
         }
 
         [Route("api/GetByPosAndQty/{pos}/{qty}")]
@@ -77,7 +77,7 @@ namespace GeekAPI.Controllers.Alex
             FROM [dbo].[Books]
             WHERE [BookID] BETWEEN {pos} AND {pos2};";
 
-            return BBC_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
+            return SQL_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
         }
     }
 }
