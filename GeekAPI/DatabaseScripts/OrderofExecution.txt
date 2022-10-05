@@ -1,0 +1,8 @@
+﻿Initial scripts to run after MasterDatabaseCreationScript and DatabaseUserCreation scripts
+
+Eddie-001RatingTableCreation
+Alex-002AuthorsTableCreation
+Alex-003BooksTableCreation
+Eddie-002DeleteRatingIDColumnFromBookTable
+Eddie-003ForeignKeyFromRatingToBooks
+Eddie-004CreateCommentTable
