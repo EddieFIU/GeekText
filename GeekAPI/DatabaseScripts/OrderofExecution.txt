@@ -7,4 +7,7 @@ Eddie-002DeleteRatingIDColumnFromBookTable
 Eddie-003ForeignKeyFromRatingToBooks
 Eddie-004CreateCommentTable
 Alex-004BooksTableSeeder
+Lilli-001UserCreation
+Ethan-001ShoppingCartCreation
+
 
