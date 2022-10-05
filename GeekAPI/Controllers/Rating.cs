@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using GeekAPI.DataAccessLayer;
+using Microsoft.AspNetCore.Mvc;
 
-using System.Data;
-using System.Data.SqlClient;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -21,22 +20,9 @@ namespace GeekAPI.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-            string qry = @"Select RatingID,RatingDate,RatingValue,RatingUser,BookID from Rating;";
-            DataTable ratingTable = new DataTable();
-            string geekDbConnectionString = _configuration.GetConnectionString("GeekDBConnectionString");
-            SqlDataReader reader;
-            using (SqlConnection conn = new SqlConnection(geekDbConnectionString))
-            {
-                conn.Open();
-                using (SqlCommand cmd = new SqlCommand(qry, conn))
-                {
-                    reader = cmd.ExecuteReader();
-                    ratingTable.Load(reader);
-                    reader.Close();
-                    conn.Close();   
-                }
-            }
-            return new JsonResult(ratingTable);
+            RatingAndComment ratingCommentInfo = new RatingAndComment(_configuration);
+
+            return new JsonResult(ratingCommentInfo.GetAllRatings());
             // JsonConvert.SerializeObject(ratingTable);
         }
 
