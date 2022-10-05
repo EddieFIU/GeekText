@@ -1,4 +1,5 @@
 ﻿using GeekAPI.DataAccessLayer;
+using GeekAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -22,10 +23,28 @@ namespace GeekAPI.Controllers
         {
             RatingAndComment ratingCommentInfo = new RatingAndComment(_configuration);
 
-            return new JsonResult(ratingCommentInfo.GetAllRatings());
-            // JsonConvert.SerializeObject(ratingTable);
+            return new JsonResult(ratingCommentInfo.GetAllRatings());            
         }
 
+        [HttpPost]
+        public JsonResult Post(Models.Rating newRating)
+        {
+            RatingAndComment ratingCommentInfo = new RatingAndComment(_configuration);
+            if (newRating.RatingValue>5 || newRating.RatingValue<1)
+            {
+                return new JsonResult("Rating needs to be with-in 1 and 5.");
+            }
+            int newRatingID = ratingCommentInfo.CreateRating(newRating);
+            if (newRatingID > 0)
+            {
+                return new JsonResult("Created rating successfullly with ID: " + newRatingID.ToString());
+            }
+            else
+            {
+                return new JsonResult("Issue creating rating");
+            }
+
+        }
 
         // GET api/<Rating>/5
         [HttpGet("{id}")]
@@ -34,11 +53,7 @@ namespace GeekAPI.Controllers
             return "value";
         }
 
-        // POST api/<Rating>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
+    
 
         // PUT api/<Rating>/5
         [HttpPut("{id}")]
