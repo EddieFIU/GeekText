@@ -6,3 +6,5 @@ Alex-003BooksTableCreation
 Eddie-002DeleteRatingIDColumnFromBookTable
 Eddie-003ForeignKeyFromRatingToBooks
 Eddie-004CreateCommentTable
+Alex-004BooksTableSeeder
+
