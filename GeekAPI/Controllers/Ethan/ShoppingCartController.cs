@@ -23,7 +23,7 @@ namespace GeekAPI.Controllers.Ethan
     
             SELECT *
             from [dbo].[ShoppingCart] 
-            join [dbo].[Books] on [dbo].[Books].[BookID] = [dbo].[ShoppingCart].[BooksID]";
+            join [dbo].[Books] on [dbo].[Books].[BookID] = [dbo].[ShoppingCart].[BookID]";
             return SC_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
         }
         //GET .../api/ShoppingCart/{id}
