@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using GeekAPI.DataAccessLayer;
+using GeekAPI.Models;
+using Microsoft.AspNetCore.Mvc;
 
-using System.Data;
-using System.Data.SqlClient;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -21,25 +21,30 @@ namespace GeekAPI.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-            string qry = @"Select RatingID,RatingDate,RatingValue,RatingUser,BookID from Rating;";
-            DataTable ratingTable = new DataTable();
-            string geekDbConnectionString = _configuration.GetConnectionString("GeekDBConnectionString");
-            SqlDataReader reader;
-            using (SqlConnection conn = new SqlConnection(geekDbConnectionString))
-            {
-                conn.Open();
-                using (SqlCommand cmd = new SqlCommand(qry, conn))
-                {
-                    reader = cmd.ExecuteReader();
-                    ratingTable.Load(reader);
-                    reader.Close();
-                    conn.Close();   
-                }
-            }
-            return new JsonResult(ratingTable);
-            // JsonConvert.SerializeObject(ratingTable);
+            RatingAndComment ratingCommentInfo = new RatingAndComment(_configuration);
+
+            return new JsonResult(ratingCommentInfo.GetAllRatings());            
         }
 
+        [HttpPost]
+        public JsonResult Post(Models.Rating newRating)
+        {
+            RatingAndComment ratingCommentInfo = new RatingAndComment(_configuration);
+            if (newRating.RatingValue>5 || newRating.RatingValue<1)
+            {
+                return new JsonResult("Rating needs to be with-in 1 and 5.");
+            }
+            int newRatingID = ratingCommentInfo.CreateRating(newRating);
+            if (newRatingID > 0)
+            {
+                return new JsonResult("Created rating successfullly with ID: " + newRatingID.ToString());
+            }
+            else
+            {
+                return new JsonResult("Issue creating rating");
+            }
+
+        }
 
         // GET api/<Rating>/5
         [HttpGet("{id}")]
@@ -48,11 +53,7 @@ namespace GeekAPI.Controllers
             return "value";
         }
 
-        // POST api/<Rating>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
+    
 
         // PUT api/<Rating>/5
         [HttpPut("{id}")]
