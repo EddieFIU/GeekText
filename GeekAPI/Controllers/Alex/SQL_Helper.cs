@@ -4,7 +4,7 @@ using System.Data;
 
 namespace GeekAPI.Controllers.Alex
 {
-    public static class BBC_Helper
+    public static class SQL_Helper
     {
         public static JsonResult GetDbData(string connectionString, string queryScript)
         {
