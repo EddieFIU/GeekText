@@ -10,4 +10,4 @@ Alex-004BooksTableSeeder
 Lilli-001UserCreation
 Ethan-001ShoppingCartCreation
 
-
+after these, you can run the remainder of scripts in any particular order.  
