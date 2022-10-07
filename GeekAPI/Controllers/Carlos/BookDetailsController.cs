@@ -21,20 +21,20 @@ namespace GeekAPI.Controllers.Alex
         {
             int topNum = 100;
             string sqlQuery = $@"
-USE [GeekStore]
+            USE [GeekStore]
 
-SELECT TOP ({topNum}) [BookID]
-      ,[ISBN]
-      ,[Title]
-      ,[Description]
-      ,[Price]
-      ,[Genre]
-      ,[Publisher]
-      ,[YearPublished]
-      ,[CopiesSold]
-      ,[RatingID]
-      ,[AuthorID]
-  FROM [GeekStore].[dbo].[Books]";
+            SELECT TOP ({topNum}) [BookID]
+            ,[ISBN]
+            ,[Title]
+            ,[Description]
+            ,[Price]
+            ,[Genre]
+            ,[Publisher]
+            ,[YearPublished]
+            ,[CopiesSold]
+            ,[RatingID]
+            ,[AuthorID]
+            FROM [GeekStore].[dbo].[Books]";
 
             return Alex.SQL_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
         }
