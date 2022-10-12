@@ -1,0 +1,13 @@
+﻿Initial scripts to run after MasterDatabaseCreationScript and DatabaseUserCreation scripts
+
+Eddie-001RatingTableCreation
+Alex-002AuthorsTableCreation
+Alex-003BooksTableCreation
+Eddie-002DeleteRatingIDColumnFromBookTable
+Eddie-003ForeignKeyFromRatingToBooks
+Eddie-004CreateCommentTable
+Alex-004BooksTableSeeder
+Lilli-001UserCreation
+Ethan-001ShoppingCartCreation
+
+after these, you can run the remainder of scripts in any particular order.  
