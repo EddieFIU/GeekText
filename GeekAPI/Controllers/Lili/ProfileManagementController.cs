@@ -24,7 +24,7 @@ USE [GeekStore]
 
 SELECT * from [dbo].[Users]";
 
-            return Alex.BBC_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
+            return Alex.SQL_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
         }
 
       

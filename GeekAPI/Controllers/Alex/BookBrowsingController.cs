@@ -36,7 +36,7 @@ SELECT TOP ({topNum}) [BookID]
       ,[AuthorID]
   FROM [GeekStore].[dbo].[Books]";
 
-            return BBC_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
+            return SQL_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
         }
 
         [Route("api/GetByGenre/{genre}")]
