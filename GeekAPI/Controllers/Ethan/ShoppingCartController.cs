@@ -44,12 +44,13 @@ namespace GeekAPI.Controllers.Ethan
 
         }
         [HttpDelete("{id}")]
-        public void delete(int bookid, int user)
+        public JsonResult delete(int id)
         {
-            //string sqlQuery = $@"
-            //USE [GeekStore]
-            //
-            //DELETE FROM ShoppingCart WHERE BookID=5 AND UserID=1;";
+            string sqlQuery = $@"
+            USE [GeekStore]
+            
+            DELETE FROM ShoppingCart WHERE ShoppingCartID =" + id;
+            return Alex.SQL_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
 
         }
     }
