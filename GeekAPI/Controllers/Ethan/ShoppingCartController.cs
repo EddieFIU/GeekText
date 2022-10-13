@@ -43,5 +43,14 @@ namespace GeekAPI.Controllers.Ethan
         {
 
         }
+        [HttpDelete("{id}")]
+        public void delete(int bookid, int user)
+        {
+            //string sqlQuery = $@"
+            //USE [GeekStore]
+            //
+            //DELETE FROM ShoppingCart WHERE BookID=5 AND UserID=1;";
+
+        }
     }
 }
