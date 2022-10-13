@@ -24,7 +24,7 @@ namespace GeekAPI.Controllers.Ethan
             SELECT *
             from [dbo].[ShoppingCart] 
             join [dbo].[Books] on [dbo].[Books].[BookID] = [dbo].[ShoppingCart].[BookID]";
-            return SC_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
+            return Alex.SQL_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
         }
         //GET .../api/ShoppingCart/{id}
         [HttpGet("{id}")]
@@ -36,7 +36,12 @@ namespace GeekAPI.Controllers.Ethan
             SELECT *
             from [dbo].[ShoppingCart] 
             where ShoppingCartId = " + id;
-            return SC_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
+            return Alex.SQL_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
+        }
+        [HttpPut("{id}")]
+        public void put(int id, [FromBody]String sc)
+        {
+
         }
     }
 }
