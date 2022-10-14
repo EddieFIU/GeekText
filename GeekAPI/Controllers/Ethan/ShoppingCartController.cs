@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Data.SqlClient;
+using System.Configuration;
+using System.Data;
 
 namespace GeekAPI.Controllers.Ethan
 {
@@ -39,19 +42,32 @@ namespace GeekAPI.Controllers.Ethan
             return Alex.SQL_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
         }
         [HttpPut("{id}")]
-        public void put(int id, [FromBody]String sc)
+        public void put(int id, [FromBody] String sc)
         {
 
         }
         [HttpDelete("{id}")]
-        public JsonResult delete(int id)
+        public string deleteSC(int id, ConfigurationManager configurationManager)
         {
+            DataTable booksTable = new();
             string sqlQuery = $@"
             USE [GeekStore]
             
             DELETE FROM ShoppingCart WHERE ShoppingCartID =" + id;
-            return Alex.SQL_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
 
+            using (SqlConnection conn = new SqlConnection(_geekDbConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
+                {
+                    using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        adapter.Fill(booksTable);
+                    }
+                }
+            }
+            return "Deleted";
         }
     }
+
 }
