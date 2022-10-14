@@ -41,13 +41,35 @@ namespace GeekAPI.Controllers.Ethan
             where ShoppingCartId = " + id;
             return Alex.SQL_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
         }
-        [HttpPut("{id}")]
-        public void put(int id, [FromBody] String sc)
+        [HttpPut]
+        public JsonResult put(Models.ShoppingCart sc)
         {
+            DataTable booksTable = new();
+            SqlDataReader reader;
+            string sqlQuery = $@"
+            USE [GeekStore]
+            
+            update ShoppingCart 
+            set BookID = @BookID 
+            where ShoppingCartID = @ShoppingCartID";
 
+            using (SqlConnection conn = new SqlConnection(_geekDbConnectionString))
+            {
+                conn.Open();
+                using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
+                {
+                    cmd.Parameters.AddWithValue("@BookID", sc.BookID);
+                    cmd.Parameters.AddWithValue("@ShoppingCartID", sc.ShoppingCartID);
+                    reader = cmd.ExecuteReader();
+                    booksTable.Load(reader);
+                    reader.Close();
+                    conn.Close();
+                }
+            }
+            return new JsonResult(booksTable);
         }
         [HttpDelete("{id}")]
-        public string deleteSC(int id, ConfigurationManager configurationManager)
+        public string delete(int id, ConfigurationManager configurationManager)
         {
             DataTable booksTable = new();
             string sqlQuery = $@"
