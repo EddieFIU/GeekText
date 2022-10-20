@@ -1,6 +1,7 @@
 ﻿using GeekAPI.DataAccessLayer;
 using GeekAPI.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -19,12 +20,25 @@ namespace GeekAPI.Controllers
 
         // GET: api/<Rating>
         [HttpGet]
-        public JsonResult Get()
+        public JsonResult GetHighestRatingsWithComments()
         {
             RatingAndComment ratingCommentInfo = new RatingAndComment(_configuration);
-
-            return new JsonResult(ratingCommentInfo.GetAllRatings());            
+            
+            return new JsonResult(ratingCommentInfo.GetAllHighestRatings());            
         }
+
+        [HttpGet("{bookId}")]
+        public JsonResult GetAverageBookRating(int bookId)
+        {
+            RatingAndComment ratingCommentInfo = new RatingAndComment(_configuration);
+            DataTable avgBookRating= ratingCommentInfo.GetAverageBookRating(bookId);
+            if (avgBookRating.Rows[0][0].ToString() !="")
+            {
+               return new JsonResult(avgBookRating);
+            }
+            return new JsonResult("Book doesn't exist");
+        }
+
 
         [HttpPost]
         public JsonResult Post(Models.Rating newRating)
@@ -37,7 +51,7 @@ namespace GeekAPI.Controllers
             int newRatingID = ratingCommentInfo.CreateRating(newRating);
             if (newRatingID > 0)
             {
-                return new JsonResult("Created rating successfullly with ID: " + newRatingID.ToString());
+                return new JsonResult("Created rating successfully with ID: " + newRatingID.ToString());
             }
             else
             {
@@ -46,14 +60,7 @@ namespace GeekAPI.Controllers
 
         }
 
-        // GET api/<Rating>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-    
+   
 
         // PUT api/<Rating>/5
         [HttpPut("{id}")]

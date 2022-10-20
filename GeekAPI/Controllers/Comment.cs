@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using GeekAPI.DataAccessLayer;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,13 +16,7 @@ namespace GeekAPI.Controllers
             _configuration = configuration;
         }
 
-        // GET: api/<Comment>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
+       
         // GET api/<Comment>/5
         [HttpGet("{id}")]
         public string Get(int id)
@@ -31,8 +26,23 @@ namespace GeekAPI.Controllers
 
         // POST api/<Comment>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public JsonResult Post(Models.Comment newComment)
         {
+            RatingAndComment ratingCommentInfo = new RatingAndComment(_configuration);
+            
+            //setting default for the created date
+            newComment.CreatedDateTime= DateTime.Now;   
+
+            int newCommentID = ratingCommentInfo.CreateComment(newComment);
+            if (newCommentID > 0)
+            {
+                return new JsonResult("Created comment successfullly with ID: " + newCommentID.ToString());
+            }
+            else
+            {
+                return new JsonResult("Issue creating comment");
+            }
+
         }
 
         // PUT api/<Comment>/5
