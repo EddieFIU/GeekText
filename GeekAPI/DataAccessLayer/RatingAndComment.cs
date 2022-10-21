@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 namespace GeekAPI.DataAccessLayer
 {
 
-    public class RatingAndComment
+    public class RatingAndComment: IRatingAndComment
     {
         private readonly IConfiguration _configuration;
 
@@ -47,12 +47,9 @@ namespace GeekAPI.DataAccessLayer
 
         public DataTable GetAllHighestRatings()
         {
-            string qry = @"SELECT Books.Title      
-                        ,[RatingValue]
-                        ,c.Comment      
+            string qry = @"SELECT *    
                         FROM [GeekStore].[dbo].[Rating] r
-                        left join Books on books.BookID=r.BookID
-                        left join Comment c on r.RatingID=c.RatingID
+                        
                         order by RatingValue desc;";
             DataTable ratingTable = new();
             string geekDbConnectionString = _configuration.GetConnectionString("GeekDBConnectionString");
@@ -159,6 +156,37 @@ namespace GeekAPI.DataAccessLayer
                 {
                     cmd.Parameters.AddWithValue("@CommentID", commentID);
                     
+                    reader = cmd.ExecuteReader();
+
+                    commentTable.Load(reader);
+
+                    reader.Close();
+                    conn.Close();
+
+                }
+            }
+            return commentTable;
+
+        }
+        public DataTable GetCommentByRatingID(int ratingID)
+        {
+            string qry = @"SELECT [CommentID]
+                            ,[UserID]
+                            ,[RatingID]
+                            ,[BookID]
+                            ,[Comment]
+                            ,[CreateDate]
+                            FROM [dbo].[Comment] where [RatingID]=@RatingID;";
+            DataTable commentTable = new DataTable();
+            string geekDbConnectionString = _configuration.GetConnectionString("GeekDBConnectionString");
+            SqlDataReader reader;
+            using (SqlConnection conn = new SqlConnection(geekDbConnectionString))
+            {
+                conn.Open();
+                using (SqlCommand cmd = new SqlCommand(qry, conn))
+                {
+                    cmd.Parameters.AddWithValue("@RatingID", ratingID);
+
                     reader = cmd.ExecuteReader();
 
                     commentTable.Load(reader);

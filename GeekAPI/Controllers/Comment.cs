@@ -16,19 +16,12 @@ namespace GeekAPI.Controllers
             _configuration = configuration;
         }
 
-       
-        // GET api/<Comment>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
+     
         // POST api/<Comment>
         [HttpPost]
         public JsonResult Post(Models.Comment newComment)
         {
-            RatingAndComment ratingCommentInfo = new RatingAndComment(_configuration);
+            IRatingAndComment ratingCommentInfo = new RatingAndComment(_configuration);
             
             //setting default for the created date
             newComment.CreatedDateTime= DateTime.Now;   
@@ -45,16 +38,5 @@ namespace GeekAPI.Controllers
 
         }
 
-        // PUT api/<Comment>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<Comment>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }
