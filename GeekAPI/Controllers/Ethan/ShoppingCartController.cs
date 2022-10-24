@@ -68,8 +68,8 @@ namespace GeekAPI.Controllers.Ethan
             }
             return new JsonResult(booksTable);
         }
-        [HttpDelete("{id}")]
-        public string delete(int id, ConfigurationManager configurationManager)
+        [HttpDelete]
+        public string delete(int id)
         {
             DataTable booksTable = new();
             string sqlQuery = $@"
