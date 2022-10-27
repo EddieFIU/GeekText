@@ -44,7 +44,16 @@ namespace GeekAPI.Controllers.Alex
             string sqlQuery = $@"
             USE [GeekStore]
 
-            SELECT [Title]
+            SELECT [BookID]
+                  ,[ISBN]
+                  ,[Title]
+                  ,[Description]
+                  ,[Price]
+                  ,[Genre]
+                  ,[Publisher]
+                  ,[YearPublished]
+                  ,[CopiesSold]
+                  ,[AuthorID]
             FROM [GeekStore].[dbo].[Books]
             WHERE [Genre]='{genre}'";
 
@@ -58,7 +67,16 @@ namespace GeekAPI.Controllers.Alex
             string sqlQuery = @"
             USE [GeekStore]
 
-            SELECT TOP (10) [Title], [CopiesSold]
+            SELECT TOP (10) [BookID]
+                  ,[ISBN]
+                  ,[Title]
+                  ,[Description]
+                  ,[Price]
+                  ,[Genre]
+                  ,[Publisher]
+                  ,[YearPublished]
+                  ,[CopiesSold]
+                  ,[AuthorID]
             FROM [dbo].[Books]
             ORDER BY [CopiesSold] DESC";
 
@@ -73,7 +91,16 @@ namespace GeekAPI.Controllers.Alex
             string sqlQuery = $@"
             USE [GeekStore]
 
-            SELECT [BookID], [Title]
+            SELECT [BookID]
+                  ,[ISBN]
+                  ,[Title]
+                  ,[Description]
+                  ,[Price]
+                  ,[Genre]
+                  ,[Publisher]
+                  ,[YearPublished]
+                  ,[CopiesSold]
+                  ,[AuthorID]
             FROM [dbo].[Books]
             WHERE [BookID] BETWEEN {pos} AND {pos2};";
 
