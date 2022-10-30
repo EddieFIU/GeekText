@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 namespace GeekAPI.DataAccessLayer
 {
 
-    public class RatingAndComment
+    public class RatingAndComment: IRatingAndComment
     {
         private readonly IConfiguration _configuration;
 
@@ -14,12 +14,44 @@ namespace GeekAPI.DataAccessLayer
         {
             _configuration = configuration;
         }
+        /// <summary>
+        /// SELECT   avg([RatingValue])              FROM[GeekStore].[dbo].[Rating]        where BookID =
+        /// </summary>
+        /// <returns></returns>
 
-
-        public DataTable GetAllRatings()
+        public DataTable GetAverageBookRating(int bookId)
         {
-            string qry = @"Select RatingID,RatingDate,RatingValue,RatingUser,BookID from Rating;";
-            DataTable ratingTable = new DataTable();
+            string qry = @"SELECT  avg([RatingValue]) as AverageBookRating FROM[GeekStore].[dbo].[Rating] where BookID =@BookID;";
+            DataTable bookRatingAvg = new DataTable();
+            string geekDbConnectionString = _configuration.GetConnectionString("GeekDBConnectionString");
+            SqlDataReader reader;
+            using (SqlConnection conn = new SqlConnection(geekDbConnectionString))
+            {
+                conn.Open();
+                using (SqlCommand cmd = new SqlCommand(qry, conn))
+                {
+                    cmd.Parameters.AddWithValue("@BookID", bookId);
+
+                    reader = cmd.ExecuteReader();
+
+                    bookRatingAvg.Load(reader);
+
+                    reader.Close();
+                    conn.Close();
+
+                }
+            }
+            return bookRatingAvg;
+
+        }
+
+        public DataTable GetAllHighestRatings()
+        {
+            string qry = @"SELECT *    
+                        FROM [GeekStore].[dbo].[Rating] r
+                        
+                        order by RatingValue desc;";
+            DataTable ratingTable = new();
             string geekDbConnectionString = _configuration.GetConnectionString("GeekDBConnectionString");
             SqlDataReader reader;
             using (SqlConnection conn = new SqlConnection(geekDbConnectionString))
@@ -66,6 +98,105 @@ namespace GeekAPI.DataAccessLayer
                 }
             }
             return ratingTable is null ? -1 : int.Parse(ratingTable.Rows[0]["RatingID"].ToString());
+
+        }
+
+        public int CreateComment(Comment newComment)
+        {
+            string qry = @"Insert into Comment
+                        ([UserID]
+                        ,[RatingID]
+                        ,[BookID]
+                        ,[Comment]
+                        ,[CreateDate])   
+                          output INSERTED.CommentID  Values(@UserID,@RatingID,@BookID,@Comment,@CreatedDate);";
+            DataTable commentTable = new DataTable();
+            string geekDbConnectionString = _configuration.GetConnectionString("GeekDBConnectionString");
+            SqlDataReader reader;
+            using (SqlConnection conn = new SqlConnection(geekDbConnectionString))
+            {
+                conn.Open();
+                using (SqlCommand cmd = new SqlCommand(qry, conn))
+                {
+                    cmd.Parameters.AddWithValue("@UserID", newComment.UserID);
+                    cmd.Parameters.AddWithValue("@RatingID", newComment.RatingID);                    
+                    cmd.Parameters.AddWithValue("@BookID", newComment.BookID);
+                    cmd.Parameters.AddWithValue("@Comment", newComment.CommentValue);
+                    cmd.Parameters.AddWithValue("@CreatedDate", newComment.CreatedDateTime);
+
+                    reader = cmd.ExecuteReader();
+
+                    commentTable.Load(reader);
+
+                    reader.Close();
+                    conn.Close();
+
+                }
+            }
+            return commentTable is null ? -1 : int.Parse(commentTable.Rows[0]["CommentID"].ToString());
+
+        }
+
+        public DataTable GetCommentByID(int commentID)
+        {
+            string qry = @"SELECT [CommentID]
+                            ,[UserID]
+                            ,[RatingID]
+                            ,[BookID]
+                            ,[Comment]
+                            ,[CreateDate]
+                            FROM [dbo].[Comment] where [CommentID]=@CommentID;";
+            DataTable commentTable = new DataTable();
+            string geekDbConnectionString = _configuration.GetConnectionString("GeekDBConnectionString");
+            SqlDataReader reader;
+            using (SqlConnection conn = new SqlConnection(geekDbConnectionString))
+            {
+                conn.Open();
+                using (SqlCommand cmd = new SqlCommand(qry, conn))
+                {
+                    cmd.Parameters.AddWithValue("@CommentID", commentID);
+                    
+                    reader = cmd.ExecuteReader();
+
+                    commentTable.Load(reader);
+
+                    reader.Close();
+                    conn.Close();
+
+                }
+            }
+            return commentTable;
+
+        }
+        public DataTable GetCommentByRatingID(int ratingID)
+        {
+            string qry = @"SELECT [CommentID]
+                            ,[UserID]
+                            ,[RatingID]
+                            ,[BookID]
+                            ,[Comment]
+                            ,[CreateDate]
+                            FROM [dbo].[Comment] where [RatingID]=@RatingID;";
+            DataTable commentTable = new DataTable();
+            string geekDbConnectionString = _configuration.GetConnectionString("GeekDBConnectionString");
+            SqlDataReader reader;
+            using (SqlConnection conn = new SqlConnection(geekDbConnectionString))
+            {
+                conn.Open();
+                using (SqlCommand cmd = new SqlCommand(qry, conn))
+                {
+                    cmd.Parameters.AddWithValue("@RatingID", ratingID);
+
+                    reader = cmd.ExecuteReader();
+
+                    commentTable.Load(reader);
+
+                    reader.Close();
+                    conn.Close();
+
+                }
+            }
+            return commentTable;
 
         }
     }

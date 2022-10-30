@@ -10,6 +10,7 @@
         public int RatingUser { get; set; }
         
         public int BookID { get; set; } 
-
+        
+        public Comment RatingComment { get; set; }   
     }
 }

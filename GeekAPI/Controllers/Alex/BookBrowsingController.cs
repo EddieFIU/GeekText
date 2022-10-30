@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.IO;
 
 namespace GeekAPI.Controllers.Alex
 {
@@ -44,7 +45,16 @@ namespace GeekAPI.Controllers.Alex
             string sqlQuery = $@"
             USE [GeekStore]
 
-            SELECT [Title]
+            SELECT [BookID]
+                  ,[ISBN]
+                  ,[Title]
+                  ,[Description]
+                  ,[Price]
+                  ,[Genre]
+                  ,[Publisher]
+                  ,[YearPublished]
+                  ,[CopiesSold]
+                  ,[AuthorID]
             FROM [GeekStore].[dbo].[Books]
             WHERE [Genre]='{genre}'";
 
@@ -58,7 +68,16 @@ namespace GeekAPI.Controllers.Alex
             string sqlQuery = @"
             USE [GeekStore]
 
-            SELECT TOP (10) [Title], [CopiesSold]
+            SELECT TOP (10) [BookID]
+                  ,[ISBN]
+                  ,[Title]
+                  ,[Description]
+                  ,[Price]
+                  ,[Genre]
+                  ,[Publisher]
+                  ,[YearPublished]
+                  ,[CopiesSold]
+                  ,[AuthorID]
             FROM [dbo].[Books]
             ORDER BY [CopiesSold] DESC";
 
@@ -73,9 +92,58 @@ namespace GeekAPI.Controllers.Alex
             string sqlQuery = $@"
             USE [GeekStore]
 
-            SELECT [BookID], [Title]
+            SELECT [BookID]
+                  ,[ISBN]
+                  ,[Title]
+                  ,[Description]
+                  ,[Price]
+                  ,[Genre]
+                  ,[Publisher]
+                  ,[YearPublished]
+                  ,[CopiesSold]
+                  ,[AuthorID]
             FROM [dbo].[Books]
             WHERE [BookID] BETWEEN {pos} AND {pos2};";
+
+            return SQL_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
+        }
+
+        [Route("api/GetByRating/{rating}")]
+        [HttpGet]
+        public JsonResult GetByRating(int rating)
+        {
+            string sqlQuery = $@"
+            USE [GeekStore]
+
+            SELECT [dbo].[Books].[BookID]
+                  ,[ISBN]
+                  ,[Title]
+                  ,[Description]
+                  ,[Price]
+                  ,[Genre]
+                  ,[Publisher]
+                  ,[YearPublished]
+                  ,[CopiesSold]
+                  ,[AuthorID]
+            FROM [dbo].[Books]
+            INNER JOIN [dbo].[Rating] ON [dbo].[Books].[BookID] = [dbo].[Rating].[BookID]
+            WHERE [RatingValue] >= '{rating}';";
+
+            return SQL_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
+        }
+
+        [Route("api/Example")]
+        [HttpGet]
+        public JsonResult Example()
+        {
+            string sqlQuery = @"
+            SELECT TOP 5
+                   [BookID] As 'Book.ID',
+                   [ISBN],
+                   [Title] As 'Test.Title',
+                   [Description]
+            FROM [GeekStore].[dbo].[Books]
+            FOR JSON PATH";
 
             return SQL_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
         }
