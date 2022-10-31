@@ -23,7 +23,7 @@ namespace GeekAPI.Controllers.Carlos
     
             SELECT *
             from [dbo].[Books] 
-            where BookName = " + name;
+            where Title = " + name;
             return Alex.SQL_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
         }
     }
