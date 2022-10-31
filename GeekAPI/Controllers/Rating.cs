@@ -1,6 +1,7 @@
 ﻿using GeekAPI.DataAccessLayer;
 using GeekAPI.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -18,13 +19,55 @@ namespace GeekAPI.Controllers
         }
 
         // GET: api/<Rating>
+        /// <summary>My super duper data</summary>
         [HttpGet]
-        public JsonResult Get()
+        public JsonResult GetHighestRatingsWithComments()
         {
-            RatingAndComment ratingCommentInfo = new RatingAndComment(_configuration);
+            IRatingAndComment ratingCommentInfo = new RatingAndComment(_configuration);
+            DataTable dataTable = ratingCommentInfo.GetAllHighestRatings();
+            List<Models.Rating> ratingList = new List<Models.Rating>();
+            foreach (DataRow row in dataTable.Rows)
+            {
+                Models.Rating rating = new Models.Rating();
+                rating.RatingId = int.Parse(row["RatingID"].ToString());
+                rating.RatingDate = DateTime.Parse(row["RatingDate"].ToString());
+                rating.RatingValue = int.Parse(row["RatingValue"].ToString());
+                rating.RatingUser = int.Parse(row["RatingUser"].ToString());
+                rating.BookID = int.Parse(row["BookID"].ToString());
+                ratingList.Add(rating);
+            }
 
-            return new JsonResult(ratingCommentInfo.GetAllRatings());            
+            foreach(Models.Rating rating in ratingList)
+            {
+                DataTable comment = ratingCommentInfo.GetCommentByRatingID(rating.RatingId);
+                if (comment.Rows.Count>0)
+                {
+                    Models.Comment foundComment = new Models.Comment();
+                    foundComment.CommentId = int.Parse(comment.Rows[0]["CommentId"].ToString());
+                    foundComment.UserID = int.Parse(comment.Rows[0]["UserId"].ToString());
+                    foundComment.CommentValue = comment.Rows[0]["Comment"].ToString();
+                    foundComment.BookID = int.Parse(comment.Rows[0]["BookId"].ToString());
+                    foundComment.RatingID = int.Parse(comment.Rows[0]["RatingId"].ToString());
+                    foundComment.CreatedDateTime = DateTime.Parse(comment.Rows[0]["CreateDate"].ToString());
+                    rating.RatingComment = foundComment;
+                }
+            }
+
+            return new JsonResult(ratingList);            
         }
+
+        [HttpGet("{bookId}")]
+        public JsonResult GetAverageBookRating(int bookId)
+        {
+            IRatingAndComment ratingCommentInfo = new RatingAndComment(_configuration);
+            DataTable avgBookRating= ratingCommentInfo.GetAverageBookRating(bookId);
+            if (avgBookRating.Rows[0][0].ToString() !="")
+            {
+               return new JsonResult(avgBookRating);
+            }
+            return new JsonResult("Book doesn't exist");
+        }
+
 
         [HttpPost]
         public JsonResult Post(Models.Rating newRating)
@@ -37,7 +80,7 @@ namespace GeekAPI.Controllers
             int newRatingID = ratingCommentInfo.CreateRating(newRating);
             if (newRatingID > 0)
             {
-                return new JsonResult("Created rating successfullly with ID: " + newRatingID.ToString());
+                return new JsonResult("Created rating successfully with ID: " + newRatingID.ToString());
             }
             else
             {
@@ -46,25 +89,6 @@ namespace GeekAPI.Controllers
 
         }
 
-        // GET api/<Rating>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
 
-    
-
-        // PUT api/<Rating>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<Rating>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }
