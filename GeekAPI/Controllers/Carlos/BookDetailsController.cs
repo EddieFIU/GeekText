@@ -24,16 +24,16 @@ namespace GeekAPI.Controllers.Alex
             USE [GeekStore]
 
             SELECT TOP ({topNum}) [BookID]
-            ,[ISBN]
-            ,[Title]
-            ,[Description]
-            ,[Price]
-            ,[Genre]
-            ,[Publisher]
-            ,[YearPublished]
-            ,[CopiesSold]
-            ,[RatingID]
-            ,[AuthorID]
+                ,[ISBN]
+                ,[Title]
+                ,[Description]
+                ,[Price]
+                ,[Genre]
+                ,[Publisher]
+                ,[YearPublished]
+                ,[CopiesSold]
+                ,[RatingID]
+                ,[AuthorID]
             FROM [GeekStore].[dbo].[Books]";
 
             return Alex.SQL_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
