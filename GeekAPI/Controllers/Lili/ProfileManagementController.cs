@@ -43,6 +43,30 @@ SELECT * from [dbo].[Users]";
 
         }
 
+        [Route("api/UpdateInfo/{UserId}")]
+        [HttpPost]
+        public JsonResult UpdateInfo(int UserId, String Username, String Password, String Name, String HomeAddress )
+        {
+           Console.WriteLine(Username);
+            Console.WriteLine(Password);
+            Console.WriteLine(Name);
+            Console.WriteLine(HomeAddress);
+
+            string sqlQuery = $@"
+            USE [GeekStore]
+
+            UPDATE UserCreation
+            Set [Username]= '{Username}', [Password]= '{Password}', [Name]= '{Name}', [HomeAddress]= '{HomeAddress}'
+            Where [UserId] = {UserId}";
+
+            
+
+            return SQL_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
+
+        }
+
+
+
 
 
     }
