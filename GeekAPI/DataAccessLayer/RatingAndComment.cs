@@ -137,6 +137,42 @@ namespace GeekAPI.DataAccessLayer
 
         }
 
+        public bool UpdateComment(Models.Comment updatedComment)
+        {
+            DataTable commentTable = new DataTable();
+            string geekDbConnectionString = _configuration.GetConnectionString("GeekDBConnectionString");
+            SqlDataReader reader;
+
+            string sqlQuery = $@"
+            USE [GeekStore]
+            
+            update Comment 
+            set Comment = @Comment 
+            where CommentID = @CommentId";
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(geekDbConnectionString))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@Comment", updatedComment.CommentValue);
+                        cmd.Parameters.AddWithValue("@CommentId", updatedComment.CommentId);
+                        reader = cmd.ExecuteReader();
+                        commentTable.Load(reader);
+                        reader.Close();
+                        conn.Close();
+                    }
+                }
+                return true;
+            }
+            catch  {
+                throw;
+            }
+        }
+            
+            
+
         public DataTable GetCommentByID(int commentID)
         {
             string qry = @"SELECT [CommentID]
@@ -168,6 +204,9 @@ namespace GeekAPI.DataAccessLayer
             return commentTable;
 
         }
+
+
+
         public DataTable GetCommentByRatingID(int ratingID)
         {
             string qry = @"SELECT [CommentID]
