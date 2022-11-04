@@ -40,7 +40,7 @@ namespace GeekAPI.Controllers.Ethan
             from [dbo].[ShoppingCart] 
             where ShoppingCartId = " + id;
             return Alex.SQL_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
-        }
+        }//
         [HttpPut]
         public JsonResult put(Models.ShoppingCart sc)
         {
