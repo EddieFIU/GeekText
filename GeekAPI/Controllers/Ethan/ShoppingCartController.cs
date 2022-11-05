@@ -68,27 +68,29 @@ namespace GeekAPI.Controllers.Ethan
             }
             return new JsonResult(booksTable);
         }
-        [HttpDelete]
-        public string delete(int id)
+        [HttpDelete("{id}")]
+        public JsonResult delete(int id)
         {
-            DataTable booksTable = new();
+            DataTable booksTable = new DataTable();
+            SqlDataReader sqlDataReader;
             string sqlQuery = $@"
             USE [GeekStore]
             
-            DELETE FROM ShoppingCart WHERE ShoppingCartID =" + id;
+            DELETE FROM ShoppingCart WHERE ShoppingCartID = @ShoppingCartID";
 
             using (SqlConnection conn = new SqlConnection(_geekDbConnectionString))
             {
+                conn.Open();
                 using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
                 {
-                    using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
-                    {
-                        cmd.CommandType = CommandType.Text;
-                        adapter.Fill(booksTable);
-                    }
+                        cmd.Parameters.AddWithValue("@ShoppingCartID", id);
+                        sqlDataReader = cmd.ExecuteReader();
+                        booksTable.Load(sqlDataReader);
+                        sqlDataReader.Close();
+                        conn.Close();
                 }
             }
-            return "Deleted";
+            return new JsonResult("deleted");
         }
     }
 
