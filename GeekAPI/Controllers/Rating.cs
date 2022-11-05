@@ -19,6 +19,7 @@ namespace GeekAPI.Controllers
         }
 
         // GET: api/<Rating>
+        /// <summary>My super duper data</summary>
         [HttpGet]
         public JsonResult GetHighestRatingsWithComments()
         {

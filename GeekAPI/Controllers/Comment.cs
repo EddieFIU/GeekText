@@ -1,5 +1,7 @@
 ﻿using GeekAPI.DataAccessLayer;
 using Microsoft.AspNetCore.Mvc;
+using System.Data.SqlClient;
+using System.Data;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -36,6 +38,21 @@ namespace GeekAPI.Controllers
                 return new JsonResult("Issue creating comment");
             }
 
+        }
+
+        [HttpPut]
+        public JsonResult put(Models.Comment updatedComment)
+        {
+            IRatingAndComment ratingCommentInfo = new RatingAndComment(_configuration);
+            try { 
+            ratingCommentInfo.UpdateComment(updatedComment);
+                return new JsonResult("Successfully saved comment.");
+            }
+            catch (Exception ex) {
+                return new JsonResult("Issue with update: " + ex.Message);
+            }
+
+            
         }
 
     }
