@@ -48,15 +48,17 @@ namespace GeekAPI.Controllers.Alex
             SELECT [BookID]
                   ,[ISBN]
                   ,[Title]
+                  ,[FirstName] + ' ' + [LastName] As 'Author'
                   ,[Description]
                   ,[Price]
                   ,[Genre]
-                  ,[Publisher]
+                  ,b.[Publisher]
                   ,[YearPublished]
                   ,[CopiesSold]
-                  ,[AuthorID]
-            FROM [GeekStore].[dbo].[Books]
-            WHERE [Genre]='{genre}'";
+            FROM [GeekStore].[dbo].[Books] AS b
+            INNER JOIN [dbo].[Authors] AS a ON b.[AuthorID] = a.[AuthorID]
+            WHERE[Genre] = '{genre}'";
+;
 
             return SQL_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
         }
@@ -147,7 +149,7 @@ namespace GeekAPI.Controllers.Alex
                    b.[Publisher],
                    [YearPublished],
                    [CopiesSold],
-                   [FirstName] + ' ' + [LastName] As 'Author Name'
+                   [FirstName] + ' ' + [LastName] As 'Author'
             FROM [GeekStore].[dbo].[Books] AS b
             INNER JOIN [dbo].[Authors] AS a ON b.[AuthorID] = a.[AuthorID]";
 
