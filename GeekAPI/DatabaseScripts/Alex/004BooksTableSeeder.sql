@@ -28,6 +28,8 @@ VALUES
 
 (9780312942724, 'Kane and Abel', 'William Lowell Kane and Abel Rosnovski, one the son of a Boston millionaire, the other a penniless Polish immigrant. Two men, born on the same day, on opposite sides of the world, their paths destined to cross in their ruthless struggle to build a fortune.', 9.10, 'Novel', 'Hodder & Stoughton', 1979, 37000000),
 
+(9798409130329, 'The Great Gatsby', 'The Great Gatsby is a 1925 novel by American writer F. Scott Fitzgerald. Set in the Jazz Age on Long Island, the novel depicts narrator Nick Carraway''s interactions with mysterious millionaire Jay Gatsby and Gatsby''s obsession to reunite with his former lover, Daisy Buchanan.', 16.99, 'Novel', 'Charles Scribner''s Sons', 1925, 30000000),
+
 (9780062658753, 'Charlotte''s Web', 'Some Pig. Humble. Radiant. These are the words in Charlotte''s Web, high up in Zuckerman''s barn. Charlotte''s spiderweb tells of her feelings for a little pig named Wilbur, who simply wants a friend. They also express the love of a girl named Fern, who saved Wilbur''s life when he was born the runt of his litter.', 9.99, 'Children''s fiction', 'Charles Scribner''s Sons', 1952, 50000000),
 
 (9780446310789, 'To Kill a Mockingbird', 'Compassionate, dramatic, and deeply moving, To Kill A Mockingbird takes readers to the roots of human behavior - to innocence and experience, kindness and cruelty, love and hatred, humor and pathos.', 16.99, 'Southern Gothic', 'J. B. Lippincott & Co.', 1960, 40000000);
