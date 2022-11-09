@@ -138,12 +138,18 @@ namespace GeekAPI.Controllers.Alex
         {
             string sqlQuery = @"
             SELECT TOP 5
-                   [BookID] As 'Book.ID',
+                   [BookID],
                    [ISBN],
                    [Title] As 'Test.Title',
-                   [Description]
-            FROM [GeekStore].[dbo].[Books]
-            FOR JSON PATH";
+                   [Description],
+                   [Price],
+                   [Genre],
+                   b.[Publisher],
+                   [YearPublished],
+                   [CopiesSold],
+                   [FirstName] + ' ' + [LastName] As 'Author Name'
+            FROM [GeekStore].[dbo].[Books] AS b
+            INNER JOIN [dbo].[Authors] AS a ON b.[AuthorID] = a.[AuthorID]";
 
             return SQL_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
         }
