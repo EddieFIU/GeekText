@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace GeekAPI.Controllers.Carlos
 {
-    [Route("api/[controller]")]
+
     [ApiController]
     public class SearchFunctionController : ControllerBase
     {
@@ -15,15 +16,26 @@ namespace GeekAPI.Controllers.Carlos
             _geekDbConnectionString = _configuration.GetConnectionString("GeekDBConnectionString");
         }
         //GET book name
-        [HttpGet("{name}")]
+        [Route("api/GetName/{name}")]
+        [HttpGet]
         public JsonResult GetName(string name)
         {
             string sqlQuery = $@"
             USE [GeekStore]
-    
-            SELECT *
-            from [dbo].[Books] 
-            where Title = " + name;
+
+            SELECT [BookID]
+                  ,[ISBN]
+                  ,[Title]
+                  ,[Description]
+                  ,[Price]
+                  ,[Genre]
+                  ,[Publisher]
+                  ,[YearPublished]
+                  ,[CopiesSold]
+                  ,[AuthorID]
+            FROM [GeekStore].[dbo].[Books]
+            WHERE [Title]='{name}'";
+
             return Alex.SQL_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
         }
     }
