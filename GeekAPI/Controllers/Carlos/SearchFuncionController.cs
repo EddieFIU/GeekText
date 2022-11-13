@@ -16,9 +16,9 @@ namespace GeekAPI.Controllers.Carlos
             _geekDbConnectionString = _configuration.GetConnectionString("GeekDBConnectionString");
         }
         //GET book name
-        [Route("api/GetName/{name}")]
+        [Route("api/GetDetails/{isbn}")]
         [HttpGet]
-        public JsonResult GetName(string name)
+        public JsonResult GetDetails(string isbn)
         {
             string sqlQuery = $@"
             USE [GeekStore]
@@ -34,7 +34,7 @@ namespace GeekAPI.Controllers.Carlos
                   ,[CopiesSold]
                   ,[AuthorID]
             FROM [GeekStore].[dbo].[Books]
-            WHERE [Title]='{name}'";
+            WHERE [ISBN]='{isbn}'";
 
             return Alex.SQL_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
         }
