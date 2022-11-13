@@ -15,7 +15,7 @@ namespace GeekAPI.DataAccessLayer
 
         public int CreateRating(Rating newRating);
 
-
+        public bool UpdateComment(Models.Comment updatedComment);
         public int CreateComment(Comment newComment);
 
         public DataTable GetCommentByID(int commentID);

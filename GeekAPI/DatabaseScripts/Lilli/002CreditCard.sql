@@ -8,6 +8,7 @@ CREATE TABLE [dbo].[CREDITCARDS](
     [PIN] INT NOT NULL,
     [Name] VARCHAR (20) NOT NULL,
     [ZipCode] INT NOT NULL,
+    
 
     [UserId] int FOREIGN KEY REFERENCES dbo.Users(UserId)
   
