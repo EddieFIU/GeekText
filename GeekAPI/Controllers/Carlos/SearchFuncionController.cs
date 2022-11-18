@@ -15,10 +15,10 @@ namespace GeekAPI.Controllers.Carlos
             _configuration = configuration;
             _geekDbConnectionString = _configuration.GetConnectionString("GeekDBConnectionString");
         }
-        //GET book name
-        [Route("api/GetDetails/{isbn}")]
+        //GET book details
+        [Route("api/GetBookDetails/{isbn}")]
         [HttpGet]
-        public JsonResult GetDetails(string isbn)
+        public JsonResult GetBookDetails(long isbn)
         {
             string sqlQuery = $@"
             USE [GeekStore]
@@ -34,7 +34,22 @@ namespace GeekAPI.Controllers.Carlos
                   ,[CopiesSold]
                   ,[AuthorID]
             FROM [GeekStore].[dbo].[Books]
-            WHERE [ISBN]='{isbn}'";
+            WHERE [ISBN]={isbn}";
+
+            return Alex.SQL_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
+        }
+
+        //GET list of books from authors
+        [Route("api/GetBookList/{books}")]
+        [HttpGet]
+        public JsonResult GetBookList(string books)
+        {
+            string sqlQuery = $@"
+            USE [GeekStore]
+
+            SELECT [Books]
+            FROM [GeekStore].[dbo].[Authors]
+            WHERE [Books]='{books}'";
 
             return Alex.SQL_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
         }
