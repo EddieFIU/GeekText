@@ -41,12 +41,35 @@ SELECT * from [dbo].[Users]";
             INSERT INTO USERS ( [Username],[Password],[Name],[Email], [HomeAddress])
             VALUES ('{Username}',  '{Password}',  '{Name}',  '{Email}',  '{HomeAddress}')";
 
-            return new JsonResult(new { message = "A new user has been saved in the data base. Success!" });
+            //return new JsonResult(new { message = "A new user has been saved in the data base. Success!" });
 
 
-            //return SQL_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
+            return SQL_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
 
         }
+
+
+
+        [Route("api/newCC")]
+        [HttpPost]
+        public JsonResult newCC(String CardNumber, String ExpDate, String PIN, String Name, String ZipCode, int UserId)
+        {
+
+
+            string sqlQuery = $@"
+            USE [GeekStore]
+
+            INSERT INTO CREDITCARDS ( [CardNumber],[ExpDate],[PIN],[Name], [ZipCode], [UserId])
+            VALUES ('{CardNumber}',  '{ExpDate}',  '{PIN}',  '{Name}',  '{ZipCode}', '{UserId}' )";
+
+            //return new JsonResult(new { message = "A new card has been saved in the data base. Success!" });
+
+
+            return SQL_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
+
+        }
+
+
 
         [Route("api/GetByUsername/{Username}")]
         [HttpGet]
