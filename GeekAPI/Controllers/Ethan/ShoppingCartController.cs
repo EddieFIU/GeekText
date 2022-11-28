@@ -69,21 +69,24 @@ namespace GeekAPI.Controllers.Ethan
             return new JsonResult(booksTable);
         }
         [HttpDelete("{id}")]
-        public JsonResult delete(int id)
+        public JsonResult deleteBook(Models.ShoppingCart sc)
         {
             DataTable booksTable = new DataTable();
             SqlDataReader sqlDataReader;
             string sqlQuery = $@"
             USE [GeekStore]
             
-            DELETE FROM ShoppingCart WHERE ShoppingCartID = @ShoppingCartID";
+            update ShoppingCart 
+            set [ShoppingCart].BookID = [Books].BookID
+            from [Books]
+            where [books].isbn = 0 and ShoppingCartID = @ShoppingCartID;";
 
             using (SqlConnection conn = new SqlConnection(_geekDbConnectionString))
             {
                 conn.Open();
                 using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
                 {
-                        cmd.Parameters.AddWithValue("@ShoppingCartID", id);
+                        cmd.Parameters.AddWithValue("@ShoppingCartID", sc.ShoppingCartID);
                         sqlDataReader = cmd.ExecuteReader();
                         booksTable.Load(sqlDataReader);
                         sqlDataReader.Close();
@@ -91,6 +94,28 @@ namespace GeekAPI.Controllers.Ethan
                 }
             }
             return new JsonResult("deleted");
+        }
+        [HttpPost]
+        public JsonResult Create(Models.ShoppingCart sc)
+        {
+            DataTable booksTable = new DataTable();
+            SqlDataReader sqlDataReader;
+            string sqlQuery = @"insert into ShoppingCart(UserID,BookID) values(@UserID,@BookID);";
+
+            using (SqlConnection conn = new SqlConnection(_geekDbConnectionString))
+            {
+                conn.Open();
+                using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
+                {
+                    cmd.Parameters.AddWithValue("@UserID", sc.UserID);
+                    cmd.Parameters.AddWithValue("@BookID", sc.BookID);
+                    sqlDataReader = cmd.ExecuteReader();
+                    booksTable.Load(sqlDataReader);
+                    sqlDataReader.Close();
+                    conn.Close();
+                }
+            }
+            return new JsonResult("Created Shopping Cart");
         }
     }
 
