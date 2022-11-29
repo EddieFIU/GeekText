@@ -6,6 +6,7 @@ CREATE TABLE [dbo].[Authors](
     [FirstName] VARCHAR(2000) NOT NULL,
     [LastName] VARCHAR(2000) NOT NULL,
     [Biography] VARCHAR(max) NOT NULL,
-    [Publisher] VARCHAR(2000) NOT NULL
+    [Publisher] VARCHAR(2000) NOT NULL,
+    [Books] VARCHAR(2000) NOT NULL
     )
 GO

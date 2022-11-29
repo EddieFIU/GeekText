@@ -25,7 +25,27 @@ USE [GeekStore]
 
 SELECT * from [dbo].[Users]";
 
+
             return Alex.SQL_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
+        }
+
+        [Route("api/newUser")]
+        [HttpPost]
+        public JsonResult newUser( String Username, String Password,String Email, String Name, String HomeAddress)
+        {
+
+
+            string sqlQuery = $@"
+            USE [GeekStore]
+
+            INSERT INTO USERS ( [Username],[Password],[Name],[Email], [HomeAddress])
+            VALUES ('{Username}',  '{Password}',  '{Name}',  '{Email}',  '{HomeAddress}')";
+
+            return new JsonResult(new { message = "A new user has been saved in the data base. Success!" });
+
+
+            //return SQL_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
+
         }
 
         [Route("api/GetByUsername/{Username}")]
@@ -47,17 +67,17 @@ SELECT * from [dbo].[Users]";
         [HttpPost]
         public JsonResult UpdateInfo(int UserId, String Username, String Password, String Name, String HomeAddress )
         {
-           Console.WriteLine(Username);
-            Console.WriteLine(Password);
-            Console.WriteLine(Name);
-            Console.WriteLine(HomeAddress);
+           //Console.WriteLine(Username);
+           //Console.WriteLine(Password);
+            //Console.WriteLine(Name);
+            //Console.WriteLine(HomeAddress);
 
             string sqlQuery = $@"
             USE [GeekStore]
 
-            UPDATE UserCreation
+            UPDATE USERS
             Set [Username]= '{Username}', [Password]= '{Password}', [Name]= '{Name}', [HomeAddress]= '{HomeAddress}'
-            Where [UserId] = {UserId}";
+            Where [UserId] = '{UserId}'";
 
             
 
@@ -65,7 +85,20 @@ SELECT * from [dbo].[Users]";
 
         }
 
+        [Route("api/GetByCC/{UserId}")]
+        [HttpGet]
+        public JsonResult GetByCC(int UserId)
+        {
+            string sqlQuery = $@"
+            USE [GeekStore]
 
+            SELECT [CCID], [CardNumber],[Name], [ExpDate], [PIN]
+            FROM [GeekStore].[dbo].[CREDITCARDS]
+            WHERE [UserId]= {UserId}";
+
+            return SQL_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
+
+        }
 
 
 
