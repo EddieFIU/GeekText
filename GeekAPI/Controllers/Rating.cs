@@ -65,7 +65,7 @@ namespace GeekAPI.Controllers
             {
                return new JsonResult(avgBookRating);
             }
-            return new JsonResult("Book doesn't exist");
+            return  new JsonResult(NotFound("Book doesn't exist") );
         }
 
 
