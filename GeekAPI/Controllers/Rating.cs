@@ -75,16 +75,16 @@ namespace GeekAPI.Controllers
             RatingAndComment ratingCommentInfo = new RatingAndComment(_configuration);
             if (newRating.RatingValue>5 || newRating.RatingValue<1)
             {
-                return new JsonResult("Rating needs to be with-in 1 and 5.");
+                return new JsonResult(NotFound("Rating needs to be with-in 1 and 5."));
             }
             int newRatingID = ratingCommentInfo.CreateRating(newRating);
             if (newRatingID > 0)
             {
-                return new JsonResult("Created rating successfully with ID: " + newRatingID.ToString());
+                return new JsonResult(Ok("Created rating successfully with ID: " + newRatingID.ToString()));
             }
             else
             {
-                return new JsonResult("Issue creating rating");
+                return new JsonResult(NoContent());
             }
 
         }
