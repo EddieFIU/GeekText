@@ -35,7 +35,7 @@ namespace GeekAPI.Controllers
             }
             else
             {
-                return new JsonResult("Issue creating comment");
+                return new JsonResult(NoContent());
             }
 
         }
