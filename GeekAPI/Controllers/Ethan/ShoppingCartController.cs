@@ -69,7 +69,7 @@ namespace GeekAPI.Controllers.Ethan
             return new JsonResult(booksTable);
         }
         [HttpDelete("{id}")]
-        public JsonResult deleteBook(Models.ShoppingCart sc)
+        public JsonResult deleteBook(int id)
         {
             DataTable booksTable = new DataTable();
             SqlDataReader sqlDataReader;
@@ -86,7 +86,7 @@ namespace GeekAPI.Controllers.Ethan
                 conn.Open();
                 using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
                 {
-                        cmd.Parameters.AddWithValue("@ShoppingCartID", sc.ShoppingCartID);
+                        cmd.Parameters.AddWithValue("@ShoppingCartID", id);
                         sqlDataReader = cmd.ExecuteReader();
                         booksTable.Load(sqlDataReader);
                         sqlDataReader.Close();
