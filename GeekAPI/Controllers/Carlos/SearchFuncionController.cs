@@ -40,7 +40,7 @@ namespace GeekAPI.Controllers.Carlos
         }
 
         //GET list of books from authors
-        [Route("api/GetBookList/{authorsName}")]
+        [Route("api/GetBookList/{authorsLastName}")]
         [HttpGet]
         public JsonResult GetBookList(string authorsLastName)
         {
