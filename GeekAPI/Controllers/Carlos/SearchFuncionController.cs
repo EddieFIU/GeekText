@@ -42,14 +42,14 @@ namespace GeekAPI.Controllers.Carlos
         //GET list of books from authors
         [Route("api/GetBookList/{authorsName}")]
         [HttpGet]
-        public JsonResult GetBookList(string authorsName)
+        public JsonResult GetBookList(string authorsLastName)
         {
             string sqlQuery = $@"
             USE [GeekStore]
 
             SELECT [Books]
             FROM [GeekStore].[dbo].[Authors]
-            WHERE [FirstName]='{authorsName}'";
+            WHERE [LastName]='{authorsLastName}'";
 
             return Alex.SQL_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
         }
