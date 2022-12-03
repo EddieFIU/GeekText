@@ -53,5 +53,37 @@ namespace GeekAPI.Controllers.Carlos
 
             return Alex.SQL_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
         }
+
+        //Add a book into the the library
+        [Route("api/CreateAuthor")]
+        [HttpPost]
+        public JsonResult CreateAuthor(String firstName, String lastName, String biography, String publisher)
+        {
+            string sqlQuery = $@"
+            USE [GeekStore]
+
+            INSERT INTO [Geekstore].[dbo].[Authors] ([FirstName], [LastName], [Biography], [Publisher])
+            VALUES ('{firstName}', '{lastName}', '{biography}', '{publisher}')";
+
+            return new JsonResult(new {message = "A new author has been created."});
+
+            //return SQL_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
+        }
+
+        //Create a new author
+        [Route("api/CreateBook")]
+        [HttpPost]
+        public JsonResult CreateBook(long isbn, String title, String description, int price, String genre, String publisher, int year, int copies)
+        {
+            string sqlQuery = $@"
+            USE [GeekStore]
+
+            INSERT INTO [Geekstore].[dbo].[Books] ([ISBN], [Title], [Description], [Price], [Genre], [Publisher], [YearPublished], [CopiesSold])
+            VALUES ('{isbn}', '{title}', '{description}', '{price}', '{genre}', '{publisher}', '{year}', '{copies}')";
+
+            return new JsonResult(new { message = "A new book has been added to the library." });
+
+            //return SQL_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
+        }
     }
 }
