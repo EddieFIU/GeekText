@@ -39,7 +39,7 @@ namespace GeekAPI.Controllers.Carlos
             return Alex.SQL_Helper.GetDbData(_geekDbConnectionString, sqlQuery);
         }
 
-        //GET list of books from authors
+        //GET list of books from authors table
         [Route("api/GetBookList/{authorsLastName}")]
         [HttpGet]
         public JsonResult GetBookList(string authorsLastName)
